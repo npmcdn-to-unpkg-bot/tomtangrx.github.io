@@ -127,43 +127,32 @@ Iron.Router运行在客户端*和*服务器端。你可以定义一个路由只�
 
 ## Route Parameters
 ## 路由参数
-Routes can have variable parameters. For example, you can create one route to
-show any post with an id. The `id` is variable depending on the post you want to
-see such as "/posts/1" or "/posts/2". To declare a named parameter in your route
-use the `:` syntax in the url followed by the parameter name. When a user goes
-to that url, the actual value of the parameter will be stored as a property on
-`this.params` in your route function.
+路由和可以有参数变量。 举个例子, 可以创建一个带参数id的路由去显示任何文章。参数`id`依赖于你想显示的文章，如"/posts/1"或者"/posts/2"。在路由中，定义参数的方法是，在参数名称前使用符号`:`标记。当我们访问这个url，在对应的路由函数中，这个参数的实际值会存储在路由的属性`this.params`.
 
-In this example we have a route parameter named `_id`. If we navigate to the
-`/post/5` url in our browser, inside of the route function we can get the actual
-value of the `_id` from `this.params._id`. In this case `this.params._id => 5`.
+在这个例子中，我们有一个路由参数名字叫`_id`。如果在浏览器中，导航到url`/post/5`，在路由函数中我们可以通过`this.params._id`取得参数`_id`的实际值。在这里例子中 `this.params._id => 5`.
 
 ```javascript
-// given a url like "/post/5"
+// 如果url是 "/post/5"
 Router.route('/post/:_id', function () {
   var params = this.params; // { _id: "5" }
   var id = params._id; // "5"
 });
 ```
 
-You can have multiple route parameters. In this example, we have an `_id`
-parameter and a `commentId` parameter. If you navigate to the url
-`/post/5/comments/100` then inside your route function `this.params._id => 5`
-and `this.params.commentId => 100`.
+我们可以设置多个路由参数。在下面的例子中，我们有`_id`和`commentId`两个参数。如果你导航到url`/post/5/comments/100`，这个时候在路由函数中`this.params._id => 5`和`this.params.commentId => 100`.
 
 ```javascript
-// given a url like "/post/5/comments/100"
+// 如果url是"/post/5/comments/100"
 Router.route('/post/:_id/comments/:commentId', function () {
   var id = this.params._id; // "5"
   var commentId = this.params.commentId; // "100"
 });
 ```
 
-If there is a query string or hash fragment in the url, you can access those
-using the `query` and `hash` properties of the `this.params` object.
+如果有查询字符串或者散列片段在url中，可以通过访问`this.params`对象的`query`和`hash`属性得到。
 
 ```javascript
-// given the url: "/post/5?q=s#hashFrag"
+// 如果url是: "/post/5?q=s#hashFrag"
 Router.route('/post/:_id', function () {
   var id = this.params._id;
   var query = this.params.query;
@@ -173,7 +162,7 @@ Router.route('/post/:_id', function () {
 });
 ```
 
-**Note**: If you want to rerun a function when the hash changes you can do this:
+**Note**: 如果想当散列改变的时候，重新运行一个函数，可以这样做:
 
 ```javascript
 // get a handle for the controller.
