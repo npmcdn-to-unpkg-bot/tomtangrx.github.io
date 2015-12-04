@@ -9,16 +9,16 @@ kramdown:
 author: 
   name: 汤瑞新
   email: 2739254134@qq.com
-  link: http://tomtrx.gihub.io
+  link: http://tomtangrx.github.io
   weibo: http://weibo.com/tangruixin
-  github: http://github.com/tomtrx
+  github: http://github.com/tomtangrx
 
 # 站点信息
 title: 汤瑞新的技术博客
 description: 汤瑞新的技术博客
-url: http://tomtrx.gihub.io
+url: http://tomtangrx.gihub.io
 rss_url: /pages/atom.xml
 
 # avatar头像及Favicon
-avatar: http://tomtrx.gihub.io/assets/img/trx.jpg
-favicon: http://tomtrx.gihub.io/assets/img/favicon.ico
+avatar: http://tomtangrx.gihub.io/assets/img/trx.jpg
+favicon: http://tomtangrx.gihub.io/assets/img/favicon.ico
