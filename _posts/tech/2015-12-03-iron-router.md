@@ -1,14 +1,12 @@
 ---
 layout: post
-title: Iron.Router Guid
+title: Iron.Router 指南
 category: 技术
 tags: [meteor , nodejs , Iron.Router]
 keywords: meteor,nodejs,Iron.Router
 ---
 
-#{{ page.title }}#
-
-# Iron.Router
+#{{ page.title }}
 
 专门为[Meteor](https://github.com/meteor/meteor)设计的，一套可以在浏览器和服务器工作的路由器
 
