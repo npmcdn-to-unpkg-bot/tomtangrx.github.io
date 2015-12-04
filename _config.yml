@@ -1,0 +1,24 @@
+permalink: /:year/:month/:day/:title.html
+markdown: kramdown
+pygments: true
+
+kramdown:
+  input: GFM
+
+# 作者信息
+author: 
+  name: 汤瑞新
+  email: 2739254134@qq.com
+  link: http://tomtrx.gihub.io
+  weibo: http://weibo.com/tangruixin
+  github: http://github.com/tomtrx
+
+# 站点信息
+title: 汤瑞新的技术博客
+description: 汤瑞新的技术博客
+url: http://tomtrx.gihub.io
+rss_url: /pages/atom.xml
+
+# avatar头像及Favicon
+avatar: http://tomtrx.gihub.io/assets/img/trx.jpg
+favicon: http://tomtrx.gihub.io/assets/img/favicon.ico
