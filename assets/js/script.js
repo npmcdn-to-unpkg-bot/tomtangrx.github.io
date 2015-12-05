@@ -89,13 +89,20 @@ function afterPjax() {
   // Generate entries for h2 and h3
   $('#post__content').children('h2,h3').each(function() {
     // Generate random ID for each heading
-    $(this).attr('id', function() {
+	var self = this;
+    $(self).attr('id', function() {
       var ID = "",
           alphabet = "abcdefghijklmnopqrstuvwxyz";
-
+      
       for(var i=0; i < 5; i++) {
         ID += alphabet.charAt(Math.floor(Math.random() * alphabet.length));
       }
+	  var oldId = $(self).attr('id')
+	  if(oldId){
+		 var oldtag = $('a[href="#'+oldId+'"]');
+		 oldtag.attr('href', '#'+ID);
+	  }
+	  
       return ID;
     });
 
