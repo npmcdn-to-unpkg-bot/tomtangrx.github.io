@@ -177,7 +177,7 @@ var params = controller.getParams();
 
 默认情况下路由器将遵循浏览器的默认行为。如果点击一个有hash frag的链接，他会滚动到对应Id的元素那里。如果想使用`controller.getParams()`，可以在对应的autorun中或者在helper中执行。
 
-## 渲染模板<a id="rendering_templates"></a>
+## 渲染模板<span id="rendering_templates"></span>
 
 Usually we want to render a template when the user goes to a particular url. For
 example, we might want to render the template named `Post` when the user
