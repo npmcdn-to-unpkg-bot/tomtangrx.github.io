@@ -1,6 +1,6 @@
 ### 我的博客
 
-地址：[http://tomtangrx.gihub.io](http://tomtangrx.gihub.io)
+地址：[http://tomtangrx.github.io](http://tomtangrx.github.io)
 
 ### 安装说明
 
