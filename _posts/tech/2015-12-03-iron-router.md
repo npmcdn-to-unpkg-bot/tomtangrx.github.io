@@ -108,21 +108,29 @@ Router.route('/item', function () {
 ## 概念
 
 ### Server Only 
+
 ### 仅仅服务器
+
 在典型的web应用中，你通过一个独特的Url（如“/items/5”），创建一个http请求到服务器。并且一个在服务器端的路由决定哪个函数被调用。这个函数会向浏览器发送一些html并关闭连接。
 
 ### Client Only
+
 ### 仅仅客户端
+
 在一些流行的web应用中，你会使用“客户端”路由，如pagejs、Backbone路由。 这些路由运行在浏览器中，不访问服务器，通过使用高级的浏览器HTML5特性（pushState、url哈希片段）来导航应用程序。
 
 ### Client and Server
+
 ### 客户端和服务器端
+
 Iron.Router运行在客户端*和*服务器端。你可以定义一个路由只运行在服务器端，或者一个路由只运行在客户端。大多数时候会创建运行于客户端的路由。这会让我们的应用在载入的时候非常快，因为当你围绕应用导航的时候，你不需要载入新的html页面。
 
 路由器*知道*所有在浏览器和服务器端的路由。这意味着你可以点击一个链接到一个服务器路由，也可能到一个客户端路由。它也意味在服务器端，如果没有客户端路由定义，我们可以返回一个404响应到客户端，而不是加载Meteor应用。
 
 ### __Reactivity__
+
 ### 响应
+
 路由函数和大多数钩子运行在响应计算中。这意味着如果响应数据代码改变的时候他们将会自动运行。举个例子，如果在路由函数中访问`Meteor.user()`，每次`Meteor.user()`改变路由函数会重新运行。
 
 ## 路由参数 <span id="route-parameters"></span>
@@ -196,7 +204,9 @@ Router.route('/post/:_id', function () {
 我们可以在路由函数中，通过调用`render`的方法渲染模板。方法`render`第一个参数是模板名称
 
 ## Rendering Templates with Data
+
 ## 渲染带数据的模板
+
 在上面的例子中`title`值没有定义。你可以在Post模板中创建一个名字叫`title`的helper，或者我们可以直接在路由上下文中直接设置一个值到模板的data 上下文中。怎么做呢？我们在调用`render`的第二个参数中提供了一个叫`data`的选项。
 
 ```javascript
@@ -210,7 +220,9 @@ Router.route('/post/:_id', function () {
 ```
 
 ## Layouts
+
 ## 布局
+
 布局允许重用一个公共的钩子并且对多个页面产生影响，所以我们不需要重复定义html个逻辑在每个单独的页面模板。
 
 布局也是模板。但是在布局中我们可以使用特殊的helper`yield`, 可以认为 `yield`是一个内容的占位符。 这个占位符定义了一个 *区域*。在实际运行路由的时候，内容会被`注入`到这个区域中。这让我们只需要改变 *yield regions* 的内容就可以在多个不同的页面重用布局。
@@ -252,6 +264,7 @@ Router.configure({
 ```
 
 ### Rendering Templates into Regions with JavaScript
+
 ### 使用JavaScript渲染模板到区域
 
 在我们的路由函数中我们可以设置哪个模板会渲染到哪个区域。
@@ -293,7 +306,9 @@ Router.route('/post/:_id', function () {
 ```
 
 ### Setting Region Data Contexts
+
 ### 设置区域数据上下文
+
 通过`render`方法的`data`属性设置区域数据上下文。也可以设置布局的数据上下文.
 
 ```javascript
@@ -322,7 +337,9 @@ Router.route('/post/:_id', function () {
 ```
 
 ### Rendering Templates into Regions using contentFor
+
 ### 使用contentFor渲染模板到区域
+
 在路由函数中渲染模板到区域非常有用，尤其当我们需要运行一些自定义的逻辑或者模板名称是动态的时候。 但是常常一个更简单的方式是直接在主模板中通过`contentFor` helper 直接为区域提供内容。比如说同样是上面的例子，模板我们还是使用`ApplicationLayout`。但是这次不为每个区域定义新的模板，我们直接 *内嵌* 内容到`post` 模板中
 
 ```handlebars
@@ -371,10 +388,12 @@ Router.route('/post/:_id', function () {
 
 ## Client Navigation
 ## 客户端导航
+
 大多数时候你的应用程序的用户在浏览器中浏览内容，而不是创建一个新的请求到服务器。到服务器请求数据的时候很少。
 
 ### Using Links
 ### 使用链接
+
 用户可以通过点击链接导航程序。打个比方，我们在layout中有很多导航链接。
 
 ```handlebars
@@ -439,6 +458,7 @@ Router.route('/two', function () {
 
 ### Using JavaScript
 ### 使用JavaScript
+
 可以通过JavaScript调用`Router.go`方法导航到一个给定的Url 或者路由名字。比如说我们定义一个按钮的点击事件句柄。
 
 ```handlebars
@@ -461,6 +481,7 @@ Template.MyButton.events({
 
 ### Using Redirects
 ### 使用重定向
+
 在路由函数中，使用`redirect`方法可以从一个路由重定向到另一个路由。
 
 ```javascript
@@ -475,6 +496,7 @@ Router.route('/two', function () {
 
 ### Using Links to Server Routes
 ### 使用链接到服务器端路由
+
 比如说你想链接到一个服务器端路由。举个例子，一个文件下载路由（这个是不得不请求服务器的）。
 
 ```javascript
@@ -493,6 +515,7 @@ Router.route('/download/:filename', function () {
 
 ## Named Routes
 ## 命名路由
+
 路由可以命名，这个名字可以用来指向这个路由。如果没有给它命名。路由会基于路径命名。但是我们可以使用`name`属性明确的给路由命名。
 
 ```javascript
@@ -526,6 +549,7 @@ Router.go('post.show', {_id: 1}, {query: 'q=s', hash: 'hashFrag'});
 ```handlebars
 /post/1?q=s#hashFrag
 ```
+
 ### Getting the Current Route
 ### 取得当前路由
 
@@ -596,12 +620,14 @@ coded `href` attributes all over the application.
 
 
 ### urlFor
+
 While the `pathFor` helper generates a path for the given route, `urlFor` will
 generate a fully qualified url. For example, `pathFor` might generate a path
 that looks like `/posts/1` but `urlFor` would generate
 `http://mysite.com/posts/1`.
 
 ### linkTo
+
 The `linkTo` helper automatically generates the html for an anchor tag along
 with the route path for the given route, parameters, hash and query. You can
 even provide a block of content to be used inside the link.
