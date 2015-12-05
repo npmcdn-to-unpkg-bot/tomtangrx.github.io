@@ -123,8 +123,8 @@ function afterPjax() {
       });
     });
   });
-  $('a[href*=#],area[href*=#]').click(function() {
-	  debugger;
+  $('a[href^=#]').attr('target','_self');
+  $('a[href^=#]').click(function() {
 	var target = $(this.hash);
     container.animate({scrollTop: target.offset().top + container.scrollTop() - 70}, 500, function() {
       target.addClass('flash').delay(700).queue(function() {
