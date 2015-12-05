@@ -32,13 +32,13 @@ Router.route('/', function () {
 });
 ```
 
-当用户导航到url“/”， 上面的路由将会渲染名字叫“Home”的模板到页面上。
+当用户导航到url`/`， 上面的路由将会渲染名字叫`Home`的模板到页面上。
 
 ```javascript
 Router.route('/items');
 ```
 
-第二个路由会自动渲染名字叫“Items”或“items”的模板到页面上。像上面这样简单的例子，不需要使用路由函数。
+第二个路由会自动渲染名字叫`Items`或`items`的模板到页面上。像上面这样简单的例子，不需要使用路由函数。
 
 到目前为止，我们只创建了直接运行在浏览器上的路由。但是我们也可以创建服务端路由。这些钩子直接进入HTTP请求，并且被使用到实现REST端点。
 
@@ -165,19 +165,20 @@ Router.route('/post/:_id', function () {
 **Note**: 如果想当散列改变的时候，重新运行一个函数，可以这样做:
 
 ```javascript
-// get a handle for the controller.
-// in a template helper this would be
+// 取得一个控制器的句柄
+// 在 template helper 中用下面注释掉的句子
 // var controller = Iron.controller();
 var controller = this;
 
-// reactive getParams method which will invalidate the comp if any part of the params change
-// including the hash.
+// params的任何部分改版将会是排版失效，并响应 getParams 方法
+// 包括散列.
 var params = controller.getParams();
 ```
 
-By default the router will follow normal browser behavior. If you click a link with a hash frag it will scroll to an element with that id. If you want to use `controller.getParams()` you can put that in either your own autorun if you want to do something procedural, or in a helper.
+默认情况下路由器将遵循浏览器的默认行为。如果点击一个有hash frag的链接，他会滚动到对应Id的元素那里。如果想使用`controller.getParams()`，可以在对应的autorun中或者在helper中执行。
 
-## Rendering Templates
+## 渲染模板<a id="rendering_templates"></a>
+
 Usually we want to render a template when the user goes to a particular url. For
 example, we might want to render the template named `Post` when the user
 navigates to the url `/posts/1`.
