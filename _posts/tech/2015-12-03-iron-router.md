@@ -125,8 +125,8 @@ Iron.Router运行在客户端*和*服务器端。你可以定义一个路由只�
 ### 响应
 路由函数和大多数钩子运行在响应计算中。这意味着如果响应数据代码改变的时候他们将会自动运行。举个例子，如果在路由函数中访问`Meteor.user()`，每次`Meteor.user()`改变路由函数会重新运行。
 
-## Route Parameters
-## 路由参数
+## 路由参数 <span id="route-parameters"></span>
+
 路由和可以有参数变量。 举个例子, 可以创建一个带参数id的路由去显示任何文章。参数`id`依赖于你想显示的文章，如"/posts/1"或者"/posts/2"。在路由中，定义参数的方法是，在参数名称前使用符号`:`标记。当我们访问这个url，在对应的路由函数中，这个参数的实际值会存储在路由的属性`this.params`.
 
 在这个例子中，我们有一个路由参数名字叫`_id`。如果在浏览器中，导航到url`/post/5`，在路由函数中我们可以通过`this.params._id`取得参数`_id`的实际值。在这里例子中 `this.params._id => 5`.
@@ -179,9 +179,7 @@ var params = controller.getParams();
 
 ## 渲染模板<span id="rendering-templates"></span>
 
-Usually we want to render a template when the user goes to a particular url. For
-example, we might want to render the template named `Post` when the user
-navigates to the url `/posts/1`.
+通常我们希望在用户到一个特定的url的时候给他渲染特定的模板。举个例子，当用户访问url`/posts/1`的时候我们想要渲染名字是`Post`的模板给用户。
 
 ```handlebars
 <template name="Post">
@@ -195,15 +193,11 @@ Router.route('/post/:_id', function () {
 });
 ```
 
-We can render a template by calling the `render` method inside of our route
-function. The `render` method takes the name of a template as its first
-parameter.
+我们可以在路由函数中，通过调用`render`的方法渲染模板。方法`render`第一个参数是模板名称
 
 ## Rendering Templates with Data
-In the above example the `title` value is not defined. We could create a helper
-on the Post template called `title` or we can set a data context for the
-template directly from our route function. To do that, we provide a `data`
-option as a second parameter to the `render` call.
+## 渲染带数据的模板
+在上面的例子中`title`值没有定义。你可以在Post模板中创建一个名字叫`title`的helper，或者我们可以直接在路由上下文中直接设置一个值到模板的data 上下文中。怎么做呢？我们在调用`render`的第二个参数中提供了一个叫`data`的选项。
 
 ```javascript
 Router.route('/post/:_id', function () {
@@ -216,15 +210,10 @@ Router.route('/post/:_id', function () {
 ```
 
 ## Layouts
-Layouts allow you to reuse a common look and feel in multiple pages in your
-application so you don't have to duplicate the html and logic on every single
-page template.
+## 布局
+布局允许重用一个公共的钩子并且对多个页面产生影响，所以我们不需要重复定义html个逻辑在每个单独的页面模板。
 
-Layouts are just templates. But, inside of a layout you can use a special helper
-called `yield`. You can think of `yield` as a placeholder for content. The
-placeholder is called a *region.* The content will be "injected" into the
-region when we actually run our route.  This lets us reuse the layout on many
-different pages, only changing the content of the *yield regions*.
+布局也是模板。但是在布局中我们可以使用特殊的helper`yield`, 可以认为 `yield`是一个内容的占位符。 这个占位符定义了一个 *区域*。在实际运行路由的时候，内容会被`注入`到这个区域中。这让我们只需要改变 *yield regions* 的内容就可以在多个不同的页面重用布局。
 
 ```handlebars
 <template name="ApplicationLayout">
@@ -246,8 +235,7 @@ different pages, only changing the content of the *yield regions*.
 </template>
 ```
 
-We can tell our route function which layout template to use by calling the
-`layout` method.
+可以在路由函数中通过调用`layout`方法设置布局模板。
 
 ```javascript
 Router.route('/post/:_id', function () {
@@ -255,8 +243,7 @@ Router.route('/post/:_id', function () {
 });
 ```
 
-If you want to use a default layout template for all routes you can configure a
-global Router option.
+如果想要为所有的路由设置默认的布局模板，可以配置全局路由设置。
 
 ```javascript
 Router.configure({
@@ -265,8 +252,9 @@ Router.configure({
 ```
 
 ### Rendering Templates into Regions with JavaScript
-Inside of our route function we can tell the router which templates to render
-into each region. 
+### 使用JavaScript渲染模板到区域
+
+在我们的路由函数中我们可以设置哪个模板会渲染到哪个区域。
 
 ```handlebars
 <template name="Post">
@@ -283,33 +271,30 @@ into each region.
   Some post specific aside content.
 </template>
 ```
-Let's say we're using the `ApplicationLayout` and we want to put the templates
-defined above into their respective regions for the `/post/:_id` route. We can
-do this directly in our route function using the `to` option of the `render`
-method.
+比如说，我们想使用`ApplicationLayout`，并且想在路由`/post/:_id`的各自区域中使用上面定义的模板。我们可以直接在路由函数中使用`render`方法的`to`选项。
 
 ```javascript
 Router.route('/post/:_id', function () {
-  // use the template named ApplicationLayout for our layout
+  // 使用名字叫ApplicationLayout的模板做layout
   this.layout('ApplicationLayout');
 
-  // render the Post template into the "main" region
+  // 渲染Post模板到"main"区域
   // {{> yield}}
   this.render('Post');
 
-  // render the PostAside template into the yield region named "aside" 
+  // 渲染模板PostAside名字叫"aside"的区域 
   // {{> yield "aside"}}
   this.render('PostAside', {to: 'aside'});
 
-  // render the PostFooter template into the yield region named "footer" 
+  // 渲染模板PostFooter到"footer"区域 
   // {{> yield "footer"}}
   this.render('PostFooter', {to: 'footer'});
 });
 ```
 
 ### Setting Region Data Contexts
-You can set the data contexts for regions by providing a `data` option to the
-`render` method. You can also set a data context for the entire layout.
+### 设置区域数据上下文
+通过`render`方法的`data`属性设置区域数据上下文。也可以设置布局的数据上下文.
 
 ```javascript
 Router.route('/post/:_id', function () {
@@ -337,13 +322,8 @@ Router.route('/post/:_id', function () {
 ```
 
 ### Rendering Templates into Regions using contentFor
-Rendering templates into region from our route function can be useful,
-especially if we need to run some custom logic or if the template names are
-dynamic. But often an easier way to provide content for a region is to use the
-`contentFor` helper directly from our main template. Let's say we're using the
-same `ApplicationLayout` from the previous example. But this time, instead of
-defining a new template for each region, we'll provide the content *inline* in
-our `Post` template.
+### 使用contentFor渲染模板到区域
+在路由函数中渲染模板到区域非常有用，尤其当我们需要运行一些自定义的逻辑或者模板名称是动态的时候。 但是常常一个更简单的方式是直接在主模板中通过`contentFor` helper 直接为区域提供内容。比如说同样是上面的例子，模板我们还是使用`ApplicationLayout`。但是这次不为每个区域定义新的模板，我们直接 *内嵌* 内容到`post` 模板中
 
 ```handlebars
 <template name="Post">
@@ -361,8 +341,7 @@ our `Post` template.
 </template>
 ```
 
-Now we can simply specify our layout and render the `Post` template instead of
-each individual region.
+现在我们可以简单指定我们的布局并且渲染`Post`模板。
 
 ```javascript
 Router.route('/post/:_id', function () {
@@ -376,8 +355,7 @@ Router.route('/post/:_id', function () {
 });
 ```
 
-You can even provide a template option to the `contentFor` helper instead of
-providing in-line block content.
+甚至不使用内嵌内容而提供一个`template`选项给`contentFor` helper。
 
 ```handlebars
 <template name="Post">
@@ -392,13 +370,12 @@ providing in-line block content.
 ```
 
 ## Client Navigation
-Most of the time users of your application will navigate around the app inside
-the browser instead of making new requests to the server for each page. There
-are a few ways to navigate around the application.
+## 客户端导航
+大多数时候你的应用程序的用户在浏览器中浏览内容，而不是创建一个新的请求到服务器。到服务器请求数据的时候很少。
 
 ### Using Links
-Users can navigate around the application by clicking links. Let's say we have a
-layout with some navigation links.
+### 使用链接
+用户可以通过点击链接导航程序。打个比方，我们在layout中有很多导航链接。
 
 ```handlebars
 <template name="ApplicationLayout">
@@ -436,7 +413,7 @@ layout with some navigation links.
 </template>
 ```
 
-Next, we'll define some routes for these pages.
+下一步，为这些页面定义路由。
 
 ```javascript
 Router.route('/', function () {
@@ -451,21 +428,18 @@ Router.route('/two', function () {
   this.render('PageTwo');
 });
 ```
-When the application first loads at the root url `/` the first route will run
-and the template named "Home" will be rendered to the page.
 
-If the user clicks the `Page One` link, the url in the browser will change to
-'/one' and the second route will run, rendering the 'PageOne' template.
+当应用第一次导入根url`/`，第一个路由会运行，并且`Home`模板会被渲染到页面上。
 
-Likewise, if the user clicks the `Page Two` link, the url in the browser will
-change to '/two' and the third route will run, rendering the 'PageTwo' template.
+如果用户点击链接`Page One`，浏览器的url会变为 `/one` 并且第二个路由会运行，渲染模板 `PageOne`。
 
-Even though the url is changing in the browser, since these are client-side
-routes, the browser doesn't need to make requests to the server. 
+同样，如果用户点击链接`Page Two`，浏览器的url会变为`/two`，并且第三个路由运行，渲染模板`PageTwo`.
+
+虽然浏览器的url是改变了，但是这个是浏览器端路由，浏览器不需要创建请求到服务器。
 
 ### Using JavaScript
-You can navigate to a given url, or even a route name, from JavaScript using the
-`Router.go` method. Let's say we've defined a click event handler for a button.
+### 使用JavaScript
+可以通过JavaScript调用`Router.go`方法导航到一个给定的Url 或者路由名字。比如说我们定义一个按钮的点击事件句柄。
 
 ```handlebars
 <template name="MyButton">
@@ -473,7 +447,7 @@ You can navigate to a given url, or even a route name, from JavaScript using the
 </template>
 ```
 
-In our click event handler we can tell the router to go to the `/one` url.
+在点击事件的句柄中，我们告诉路由到url `/one`。
 
 ```javascript
 Template.MyButton.events({
@@ -483,11 +457,11 @@ Template.MyButton.events({
 });
 ```
 
-This will change the browser's url to `/one` and run the corresponding route.
+这会改变浏览器的url到`/one` 并且会运行相对于的路由。
 
 ### Using Redirects
-You can redirect from one route to another from inside a route function by using
-the `redirect` method inside your route function.
+### 使用重定向
+在路由函数中，使用`redirect`方法可以从一个路由重定向到另一个路由。
 
 ```javascript
 Router.route('/one', function () {
@@ -500,8 +474,8 @@ Router.route('/two', function () {
 ```
 
 ### Using Links to Server Routes
-Let's say you have a server route that you'd like to link to. For example, a
-file download route which *has* to go to the server.
+### 使用链接到服务器端路由
+比如说你想链接到一个服务器端路由。举个例子，一个文件下载路由（这个是不得不请求服务器的）。
 
 ```javascript
 Router.route('/download/:filename', function () {
@@ -509,19 +483,17 @@ Router.route('/download/:filename', function () {
 }, {where: 'server'});
 ```
 
-Now, in our html we'll have a link to download a particular file.
+现在，在我们的html我们有一个链接用来下载一个特别的文件。
 
 ```handlebars
-<a href="/download/myfilename">Download File</a>
+<a href="/download/myfilename">下载文件</a>
 ```
 
-When a user clicks on the `Download File` link, the router will send you to the
-server and run the server-side route.
+当用户点击 `下载文件` 链接，这个路由会请求服务器，并且运行服务器端路由。
 
 ## Named Routes
-Routes can have names that can be used to refer to the route. If you don't give
-it a name, the router will guess its name based on the path. But you can provide
-a name explicitly using the `name` option.
+## 命名路由
+路由可以命名，这个名字可以用来指向这个路由。如果没有给它命名。路由会基于路径命名。但是我们可以使用`name`属性明确的给路由命名。
 
 ```javascript
 Router.route('/posts/:_id', function () {
@@ -531,67 +503,61 @@ Router.route('/posts/:_id', function () {
 });
 ```
 
-Now that we've named our route, we can get access to the route object if needed
-like this:
+现在已经给我们的路由命名了，如果需要可以访问路由对象，像这样:
 
 ```javascript
 Router.routes['post.show']
 ```
 
-But we can also use the route name in the `Router.go` method like this:
+但是我们也可以在方法`Router.go`中使用路由名字，像这样:
 
 ```javascript
 Router.go('post.show');
 ```
 
-Now that we're using named routes in `Router.go` you can also pass a parameters
-object, query and hash fragment options.
+现在可以在`Router.go`中使用命名的路由，我们也可以传入参数对象，查询和哈希散列的参数对象.
 
 ```javascript
 Router.go('post.show', {_id: 1}, {query: 'q=s', hash: 'hashFrag'});
 ```
 
-The above JavaScript will navigate to this url:
+上面的JavaScript将会导航到这个url:
 
 ```handlebars
 /post/1?q=s#hashFrag
 ```
 ### Getting the Current Route
+### 取得当前路由
 
-You can access the current route's name through the current controller with:
+可用通过当前控制器得到当前路由的名字：
 
 ```javascript
 Router.current().route.getName()
 ```
 
 ## Template Lookup
-If you don't explicitly set a template option on your route, and you don't
-explicity render a template name, the router will try to automatically render a
-template based on the name of the route. By default the router will look for the
-class case name of the template.
+## 模板钩子
 
-For example, if you have a route defined like this:
+如果你没有在路由中明确的设置模板属性，并且你没有明确的渲染模板名字，这个如有会尝试通过路由的名字去渲染模板。默认，路由会查找模板的类案例名称。
+
+举个例子，如果定义的路由如下：
 
 ```javascript
 Router.route('/items/:_id', {name: 'items.show'});
 ```
 
-The router will by default look for a template named `ItemsShow` with capital
-letters for each word and punctuation removed. If you would like to customize
-this behavior you can set your own converter function. For example, let's say
-you don't want any conversion. You can set the converter function like this:
+这个路由会默认查找名字叫`ItemsShow`的模板，每个单词的首字母大写，并且标点符号被移除。如果你打算自定义这个行为，可以设置自己的转换函数。举个例子，我们不想要任何的转换，可以吧转换函数这样写：
 
 ```javascript
 Router.setTemplateNameConverter(function (str) { return str; });
 ```
 
 ## Path and Link Template Helpers
+## 路径和链接模板Helpers
 
 ### pathFor
-There are a few template helpers we can use to create links based on routes.
-First, we can use the `{{pathFor}}` helper to generate a path for a given named
-route. Given the `post.show` route we created above we can create a link like
-this:
+
+这里有一些模板帮助，我们可以通过他们创建基于路由的链接。首先，我们使用`{{pathFor}}` helper去生成一个已经命名路由的路径。我们创建一个名字叫`post.show`的路由的链接:
 
 ```handlebars
 {{#with post}}
@@ -599,13 +565,13 @@ this:
 {{/with}}
 ```
 
-Assuming we have a post with an id of "1", the above snippet is equivalent to:
+假设我们有一个id是1的post，上面的代码片段等价于:
 
 ```handlebars
 <a href="/posts/1">Post Show</a>
 ```
 
-We can pass `data`, `query` and `hash` options to the pathFor helper.
+我们可以传入 `data`, `query` 和 `hash` 选项到 `pathFor` helper。
 
 ```handlebars
 <a href="{{pathFor route='post.show' data=getPost query='q=s' hash='frag'}}">Post Show</a>
