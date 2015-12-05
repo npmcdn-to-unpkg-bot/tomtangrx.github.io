@@ -969,6 +969,7 @@ Router.onBeforeAction(myAdminHookFunction, {
 在上面的例子, 这个`myAdminHookFunction`将只应用到`admin`路由。
 
 ### Using the Iron.Router.hooks Namespace
+*使用`Iron.Router.hooks`命名空间*
 Package authors can add hook functions to `Iron.Router.hooks` and users can
 reference those hooks by string name.
 
