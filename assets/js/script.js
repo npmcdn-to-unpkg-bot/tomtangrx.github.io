@@ -117,18 +117,12 @@ function afterPjax() {
   });
   $('a[href*=#],area[href*=#]').click(function() {
 	  debugger;
-    if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
-      var $target = $(this.hash);
-      $target = $target.length && $target || $('[name=' + this.hash.slice(1) + ']');
-      if ($target.length) {
-        var targetOffset = $target.offset().top;
-        container.animate({
-          scrollTop: targetOffset
-        },
-        1000);
-        return false;
-      }
-    }
+	var target = $(this.hash);
+    container.animate({scrollTop: target.offset().top + container.scrollTop() - 70}, 500, function() {
+      target.addClass('flash').delay(700).queue(function() {
+        $(this).removeClass('flash').dequeue();
+      });
+    });
   });
   // Lazy Loading Disqus
   // http://jsfiddle.net/dragoncrew/SHGwe/1/
