@@ -101,6 +101,7 @@ function afterPjax() {
 	  if(oldId){
 		 var oldtag = $('a[href="#'+oldId+'"]');
 		 oldtag.attr('href', '#'+ID);
+		 oldtag.removeAtrr('target');
 	  }
 	  
       return ID;
