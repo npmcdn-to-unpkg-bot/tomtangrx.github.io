@@ -387,12 +387,12 @@ Router.route('/post/:_id', function () {
 ```
 
 ## Client Navigation
-## 客户端导航
+*客户端导航*
 
 大多数时候你的应用程序的用户在浏览器中浏览内容，而不是创建一个新的请求到服务器。到服务器请求数据的时候很少。
 
 ### Using Links
-### 使用链接
+*使用链接*
 
 用户可以通过点击链接导航程序。打个比方，我们在layout中有很多导航链接。
 
@@ -457,7 +457,7 @@ Router.route('/two', function () {
 虽然浏览器的url是改变了，但是这个是浏览器端路由，浏览器不需要创建请求到服务器。
 
 ### Using JavaScript
-### 使用JavaScript
+*使用JavaScript*
 
 可以通过JavaScript调用`Router.go`方法导航到一个给定的Url 或者路由名字。比如说我们定义一个按钮的点击事件句柄。
 
@@ -495,7 +495,7 @@ Router.route('/two', function () {
 ```
 
 ### Using Links to Server Routes
-### 使用链接到服务器端路由
+*使用链接到服务器端路由*
 
 比如说你想链接到一个服务器端路由。举个例子，一个文件下载路由（这个是不得不请求服务器的）。
 
@@ -514,7 +514,7 @@ Router.route('/download/:filename', function () {
 当用户点击 `下载文件` 链接，这个路由会请求服务器，并且运行服务器端路由。
 
 ## Named Routes
-## 命名路由
+*命名路由*
 
 路由可以命名，这个名字可以用来指向这个路由。如果没有给它命名。路由会基于路径命名。但是我们可以使用`name`属性明确的给路由命名。
 
@@ -551,7 +551,7 @@ Router.go('post.show', {_id: 1}, {query: 'q=s', hash: 'hashFrag'});
 ```
 
 ### Getting the Current Route
-### 取得当前路由
+*取得当前路由*
 
 可用通过当前控制器得到当前路由的名字：
 
@@ -560,7 +560,7 @@ Router.current().route.getName()
 ```
 
 ## Template Lookup
-## 模板钩子
+*模板钩子*
 
 如果你没有在路由中明确的设置模板属性，并且你没有明确的渲染模板名字，这个如有会尝试通过路由的名字去渲染模板。默认，路由会查找模板的类案例名称。
 
@@ -577,7 +577,7 @@ Router.setTemplateNameConverter(function (str) { return str; });
 ```
 
 ## Path and Link Template Helpers
-## 路径和链接模板Helpers
+*路径和链接模板`Helpers`*
 
 ### pathFor
 
@@ -601,36 +601,28 @@ Router.setTemplateNameConverter(function (str) { return str; });
 <a href="{{pathFor route='post.show' data=getPost query='q=s' hash='frag'}}">Post Show</a>
 ```
 
-The data object will be interpolated onto the route parameters. The query and
-hash arguments will be added to the href as a query string and hash fragment.
-Let's say our data object looks like this:
+这个data对象将会被内插到路由参数中。`query`和`hash`参数将会被作为query string 和hash散列添加到链接中。比如，data对象如下:
 
 ```javascript
 data = { _id: 1 };
 ```
 
-The above `pathFor` expression will result in a link that looks like this:
+上面的`pathFor`表达式生成的链接结果如下:
 
 ```handlebars
 <a href="/post/1?q=s#frag">Post Show</a>
 ```
 
-The benefit of using the `pathFor` helper is that we don't need to keep hard
-coded `href` attributes all over the application.
+使用`pathFor` helper的好处是在应用程序中我们不需要使用硬编码`href`属性。
 
 
 ### urlFor
 
-While the `pathFor` helper generates a path for the given route, `urlFor` will
-generate a fully qualified url. For example, `pathFor` might generate a path
-that looks like `/posts/1` but `urlFor` would generate
-`http://mysite.com/posts/1`.
+`pathFor` helper生成路由改定的路径，`urlFor`会生成一个完整的链接。举个例子，`pathFor`如果生成的路径是`/posts/1`，但是`urlFor`将生成 `http://mysite.com/posts/1`。
 
 ### linkTo
 
-The `linkTo` helper automatically generates the html for an anchor tag along
-with the route path for the given route, parameters, hash and query. You can
-even provide a block of content to be used inside the link.
+`linkTo` helper可以根据改定的路由、参数、hash和query自动生成一个html锚标记。你也可以提供一个内容块嵌入到链接中。
 
 ```handlebars
 {{#linkTo route="post.show" data=getData query="q=s" hash="hashFrag" class="my-cls"}}
@@ -640,7 +632,7 @@ even provide a block of content to be used inside the link.
 {{/linkTo}}
 ```
 
-The expression above will be transformed into html that looks like this:
+上面的表达式将转换为下面的html：
 
 ```handlebars
 <a href="/posts/1?q=s#hashFrag" class="my-cls">
@@ -651,17 +643,16 @@ The expression above will be transformed into html that looks like this:
 ```
 
 ## Route Options
-So far you've seen a few options you can provide to routes like the `name`
-option. There are a few other options and several ways to provide options to
-routes.
+*路由选项*
+到目前为止，你见到多种方式可以设置路由的`name`选项。这里提供其他方式设置路由选项。
 
 ### Route Specific Options
-In this example we'll omit the route function and just provide an options
-object. The options object will explain each of the possible options.
+*路由具体选项*
+在这个例子我们将省略路由函数，仅仅提供一个选项对象。属性对象将解释每个可能的选项.
 
 ```javascript
 Router.route('/post/:_id', {
-  // The name of the route.
+  // 路由的名字.
   // Used to reference the route in path helpers and to find a default template
   // for the route if none is provided in the "template" option. If no name is
   // provided, the router guesses a name based on the path '/post/:_id'
@@ -673,19 +664,23 @@ Router.route('/post/:_id', {
   // route function.
   path: '/post/:_id',
 
+  // 控制器
   // If we want to provide a specific RouteController instead of an anonymous
   // one we can do that here. See the Route Controller section for more info.
   controller: 'CustomController',
 
+  // 模板名字
   // If the template name is different from the route name you can specify it
   // explicitly here.
   template: 'Post',
 
+  // layout 模板名
   // A layout template to be used with this route.
   // If there is no layout provided, a default layout will
   // be used.
   layoutTemplate: 'ApplicationLayout',
 
+  // yield 区域设置
   // A declarative way of providing templates for each yield region
   // in the layout
   yieldRegions: {
@@ -693,37 +688,36 @@ Router.route('/post/:_id', {
     'MyFooter': {to: 'footer'}
   },
 
-  // a place to put your subscriptions
+  // 设置你订阅的地方
   subscriptions: function() {
     this.subscribe('items');
     
-    // add the subscription to the waitlist
+    // 添加订阅到等待列表
     this.subscribe('item', this.params._id).wait();
   },
 
-  // Subscriptions or other things we want to "wait" on. This also
-  // automatically uses the loading hook. That's the only difference between
-  // this option and the subscriptions option above.
+  // 订阅或者其他你想等待的项。它会自动调用loading钩子,
+  // 这也是和上面`subscriptions`选项不同的地方
   waitOn: function () {
     return Meteor.subscribe('post', this.params._id);
   },
 
-  // A data function that can be used to automatically set the data context for
-  // our layout. This function can also be used by hooks and plugins. For
-  // example, the "dataNotFound" plugin calls this function to see if it
-  // returns a null value, and if so, renders the not found template.
+  // 数据函数，会被自动使用到设置layout的data上下文上。
+  // 这个函数也可以被钩子和插件使用。
+  // 比如，当这个函数返回`null`的时候，`dataNotFound`插件会被调用，
+  // 如果这样的话，not found 模板将会被渲染。
   data: function () {
     return Posts.findOne({_id: this.params._id});
   },
 
-  // You can provide any of the hook options described below in the "Using
-  // Hooks" section.
+  // 在`Using Hooks`这一节，下面的钩子项目会再被介绍
   onRun: function () {},
   onRerun: function () {},
   onBeforeAction: function () {},
   onAfterAction: function () {},
   onStop: function () {},
 
+  // action操作，可以使用函数名
   // The same thing as providing a function as the second parameter. You can
   // also provide a string action name here which will be looked up on a Controller
   // when the route runs. More on Controllers later. Note, the action function
@@ -739,9 +733,9 @@ Router.route('/post/:_id', {
 ```
 
 ### Global Default Options
-You can set any of the above options on the Router itself. These become default
-options for all of our routes. To set default Router options use the `configure`
-method.
+*全局默认选项*
+上面所有的路由设置选项都可以设置。这也会成为所有路由的默认选项设置。
+使用方法`configure`设置默认路由选项：
 
 ```javascript
 Router.configure({
@@ -755,25 +749,24 @@ Router.configure({
 });
 ```
 
-Options declared on the route will override these default Router options.
+每个路由的选项设置会覆盖默认路由设置。
 
 ## Subscriptions
-Sometimes you want to wait on one or more subscriptions to be ready, or maybe
-on the result of some other action. For example, you might want to show a
-loading template while waiting for subscription data.
+*订阅*
+
+有些时候你想等待一个或者多个订阅完成，或者其他action的结果。例如，在等待订阅数据的时候，你可能想显示`loading`模板。
 
 ### Wait and Ready
+*等待和完成*
 
-You can use the `wait` method to add a subscription to the wait list. When you
-call `this.ready()` it returns true if all items in the wait list are ready.
+你可以使用`wait`方法去添加一个订阅到等待列表。如果等待列表中所有的项都完成的时候，`this.ready()`会返回`true`。
 
 ```javascript
 Router.route('/post/:_id', function () {
-  // add the subscription handle to our waitlist
+  // 添加订阅指针到等待列表
   this.wait(Meteor.subscribe('item', this.params._id));
 
-  // this.ready() is true if all items in the wait list are ready
-
+  // 如果等待列表中所有的项目都完成，this.ready() 是 true
   if (this.ready()) {
     this.render();
   } else {
@@ -782,9 +775,7 @@ Router.route('/post/:_id', function () {
 });
 ```
 
-An alternative way to write the above example is to call the `wait` method
-on the subscription directly. In this case you'll call `this.subscribe` instead
-of `Meteor.subscribe`.
+上面的例子的替代方法是直接调用订阅的`wait`方法。在这个例子我们调用`this.subscribe` 而不是 `Meteor.subscribe`。
 
 ```javascript
 Router.route('/post/:_id', function () {
@@ -799,14 +790,14 @@ Router.route('/post/:_id', function () {
 ```
 
 ### The subscriptions Option
-
-You can automatically take advantage of this functionality by using the `subscriptions` option to your route.
+*subscriptions选项*
+在路由中使用`subscriptions`选项我们可以自动得到这个功能的好处。
 
 ```javascript
 Router.route('/post/:_id', {
   subscriptions: function() {
-    // returning a subscription handle or an array of subscription handles
-    // adds them to the wait list.
+    // 返回一个订阅句柄或者一个定义句柄数组
+    // 并且添加他们到等待列表
     return Meteor.subscribe('item', this.params._id);
   },
 
@@ -820,20 +811,21 @@ Router.route('/post/:_id', {
 });
 ```
 
-Your `subscriptions` function can return a single subscription handle (the result of `Meteor.subscribe`) or an array of them. The subscription(s) will be used to drive the `.ready()` state. 
+`subscriptions`函数可以返回一个单独的订阅句柄（`Meteor.subscribe`的返回值）或者一个订阅句柄的数组。这些订阅将会并用来驱动`.ready()`的状态。 
 
-You can also inherit subscriptions from the global router config or from a controller (see below).
+你也可以从全局路由配置中继承订阅或者从控制器中继承(看下面).
 
 ### The waitOn Option
-Another alternative is to use `waitOn` instead of `subscribe`. This has the same effect but automatically short-circuits your route action and any before hooks (see below), and renders a `loadingTemplate` instead. You can specify that template on the route or the router itself:
+*waitOn选项*
+另外的选择是使用`waitOn`替代`subscribe`。这个有同样的效果，但是会让你的路由`action`更小(如下)，完成之前，显示`loadingTemplate`替换。你可以指定这个路由的模板或者让路由自己决定：
 
 ```javascript
 Router.route('/post/:_id', {
-  // this template will be rendered until the subscriptions are ready
+  // 这个模板将会被渲染，直到订阅完成
   loadingTemplate: 'loading',
   
   waitOn: function () {
-    // return one handle, a function, or an array
+    // 返回一个句柄，或者函数，或者数组
     return Meteor.subscribe('post', this.params._id);
   },
 
@@ -844,29 +836,28 @@ Router.route('/post/:_id', {
 ```
 
 ## Server Routing
+*服务器端路由*
 
 ### Creating Routes
-So far you've seen features mostly intended for the browser. But you can also
-create server routes with full access to the NodeJS request and response
-objects. To create a server route you provide the `where: 'server'` option to
-the route.
+*创建路由*
+
+到目前为止我们看到的功能主要用户浏览器。但是我们也可以创建服务器端路由，这里我们可以完全访问NodeJS的request和response对象。去创建服务器端路由，可以在路由上使用`where: 'server'` 选项。
 
 ```javascript
 Router.route('/download/:file', function () {
-  // NodeJS request object
+  // NodeJS request 对象
   var request = this.request;
 
-  // NodeJS  response object
+  // NodeJS  response 对象
   var response = this.response;
 
-  this.response.end('file download content\n');
+  this.response.end('下载文件内容\n');
 }, {where: 'server'});
 ```
 
 ### Restful Routes
-You can even create server-side restful routes which correspond to an http verb.
-This is particularly useful if you're setting up a webhook for another service
-to post data to.
+*Restful路由*
+你也可以创建一个基于http动作的服务器端rest路由。如果为其他服务提交数据设置一个web钩子，这个就特别有用。
 
 ```javascript
 Router.route('/webhooks/stripe', { where: 'server' })
@@ -882,31 +873,24 @@ Router.route('/webhooks/stripe', { where: 'server' })
 ```
 
 ### 404s and Client vs Server Routes
-When you initially navigate to your Meteor application's url, the server router
-will see if there are any routes defined for that url, either on the server or
-on the client. If no routes are found, the server will send a 404 http status
-code to indicate no resource was found for the given url.
+当你最初导航到Meteor应用的url的时候，服务器端路由将会检查是否有路由满足这个url，不管是服务器端还包括客户端路由。如果没有路由满足，服务器将会返回一个http 404状态code,表示给定的url没有任何资源找到。
 
 
 ## Plugins
-Plugins are a way to reuse functionality in your router, either that you've
-built for your own applications, or from other package authors. There's even a
-built-in plugin called "dataNotFound".
+*插件*
+插件是路由中的一种重用功能的一种方式，要么已经构建自己的应用程序，要么使用别的包作者。这里有一个内置插件名字叫`dataNotFound`。
 
-To use a plugin just call the `plugin` method of Router and pass the name of the
-plugin and any options for the plugin.
+调用插件的方法是调用`Router`的方法`plugin`，传入插件名字和其他插件的参数。
 
 ```javascript
 Router.plugin('dataNotFound', {notFoundTemplate: 'notFound'});
 ```
 
-This out-of-box plugin will automatically render the template named "notFound" 
-if the route's data is falsey (i.e. `! this.data()`).
+这个`out-of-box`插件将会自动的渲染模板`notFound` 如果这个路由的数据是falsey (i.e. `! this.data()`).
 
 ### Applying Plugins to Specific Routes
-You can apply a plugin to a specific route by passing an `except` or `only` option
-to the respective plugin function. This is useful for server routes, where you
-explicitly don't want to run plugins designed for the client.
+*将插件应用与特定的路由*
+你可以使用`except` 或者 `only`选项给特定路由应用相应的插件功能。当你不想显示的应用插件用于客户端，这一点对于服务器端是非常有用的。
 
 ```javascript
 Router.plugin('dataNotFound', {
@@ -916,12 +900,11 @@ Router.plugin('dataNotFound', {
 });
 ```
 
-In the above example, the dataNotFound will be applied to all routes except the 
-route named 'server.route'.
+在上面的例子中，`dataNotFound`将会应用到所有路由，除了名字叫的`server.route`路由。
 
 ### Creating Plugins
-To create a plugin just put your function on the `Iron.Router.plugins` object
-like this:
+`创建插件`
+创建插件只需要把函数放在`Iron.Router.plugins`对象上，如下:
 
 ```javascript
 Iron.Router.plugins.loading = function (router, options) {
@@ -929,22 +912,18 @@ Iron.Router.plugins.loading = function (router, options) {
   router.onBeforeAction('loading', options);
 };
 ```
-The plugin function will get called with the router instance and any options the
-user passed.
+这个插件函数会被调用，这个插件函数可以访问路由对象和任何用户传入的参数。
 
-*Package authors are encouraged to create new plugins!*
+*鼓励大家创建新的插件!*
 
 ## Hooks
+`钩子`
 
 ### Using Hooks
-A hook is just a function. Hooks provide a way to plug into the process of
-running a route, typically to customize rendering behavior or perform some
-business logic.
+`使用钩子`
+钩子就是一个函数。 钩子是处理路由的过程中的一个插头，代表性的使用是自定义渲染行为或者执行一些业务逻辑。
 
-In this example, our goal is to only render the template and regions for a route
-if the user is logged in. We'll add a hook function using the `onBeforeAction`
-method to tell the router we want this function to run before our route
-function, or the "action" function.
+在这个例子，在路由中我们只渲染模板和区域。如果用户已经登录，我们会使用`onBeforeAction`添加一个钩子函数，告诉路由这个函数会在路由函数（或`action`函数）运行前运行
 
 ```javascript
 Router.onBeforeAction(function () {
@@ -962,7 +941,7 @@ Router.onBeforeAction(function () {
 });
 ```
 
-Now let's say we have a route defined like this:
+现在比方说我们有如果一个路由定义:
 
 ```javascript
 Router.route('/admin', function () {
@@ -970,18 +949,15 @@ Router.route('/admin', function () {
 });
 ```
 
-Our onBeforeAction hook function will run before our route function when the
-user navigates to "/admin". If the user is not logged in, the route function
-will never get called and the `AdminPage` will not render to the page.
+当我们访问`/admin`链接的时候，我们的 `onBeforeAction` 钩子函数会在路由函数运行前运行。如果这个用户没有登录，这个路由函数将不会被访问，并且`AdminPage`模板也不会渲染到页面。
 
 Hook functions and all functions that get run when dispatching to a route are
 run in a **reactive computation**: they will rerun if any reactive data sources
-invalidate the computation. In the above example, if `Meteor.user()` changes the
-entire set of route functions will be run again.
+invalidate the computation. In the above example, if `Meteor.user()` changes the entire set of route functions will be run again.
 
 ### Applying Hooks to Specific Routes
-You can apply a hook to a specific route by passing an `except` or `only` option
-to the respective hook function.
+`应用钩子到特定路由`
+通过`except`或者`only`选项，我们可以应用一个钩子到特定路由。
 
 ```javascript
 Router.onBeforeAction(myAdminHookFunction, {
@@ -990,8 +966,7 @@ Router.onBeforeAction(myAdminHookFunction, {
 });
 ```
 
-In the above example, the myAdminHookFunction will only get applied to a route
-named 'admin.'
+在上面的例子, 这个`myAdminHookFunction`将只应用到`admin`路由。
 
 ### Using the Iron.Router.hooks Namespace
 Package authors can add hook functions to `Iron.Router.hooks` and users can
