@@ -115,7 +115,21 @@ function afterPjax() {
       });
     });
   });
-
+  $('a[href*=#],area[href*=#]').click(function() {
+	  debugger;
+    if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
+      var $target = $(this.hash);
+      $target = $target.length && $target || $('[name=' + this.hash.slice(1) + ']');
+      if ($target.length) {
+        var targetOffset = $target.offset().top;
+        container.animate({
+          scrollTop: targetOffset
+        },
+        1000);
+        return false;
+      }
+    }
+  });
   // Lazy Loading Disqus
   // http://jsfiddle.net/dragoncrew/SHGwe/1/
   /*var ds_loaded = false,
@@ -136,21 +150,4 @@ function afterPjax() {
   container.scroll(check);
   */
 }afterPjax();
-
-$(function(){  
-  $('a[href*=#],area[href*=#]').click(function() {
-    if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
-      var $target = $(this.hash);
-      $target = $target.length && $target || $('[name=' + this.hash.slice(1) + ']');
-      if ($target.length) {
-        var targetOffset = $target.offset().top;
-        $('html,body').animate({
-          scrollTop: targetOffset
-        },
-        1000);
-        return false;
-      }
-    }
-  });
-})
 
