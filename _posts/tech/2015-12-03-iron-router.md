@@ -970,8 +970,7 @@ Router.onBeforeAction(myAdminHookFunction, {
 
 ### Using the Iron.Router.hooks Namespace
 *使用`Iron.Router.hooks`命名空间*
-Package authors can add hook functions to `Iron.Router.hooks` and users can
-reference those hooks by string name.
+包作者可以添加钩子函数到`Iron.Router.hooks`，用户可以通过这些钩子的名字调用它们，如下：
 
 ```javascript
 Iron.Router.hooks.customPackageHook = function () {
@@ -981,31 +980,29 @@ Iron.Router.hooks.customPackageHook = function () {
 
 Router.onBeforeAction('customPackageHook');
 ```
+
 ### Available Hook Methods
-* **onRun**: Called when the route is first run. It is not called again if the
-  route reruns because of a computation invalidation. This makes it a good 
-  candidate for things like analytics where you want be sure the hook only runs once. Note that this hook *won't* run again if the route is reloaded via hot code push. You *must* call `this.next()` to continue calling the next function.
+*可以使用的钩子方法*
+* **onRun**:  
+  在路由第一次运行的时候调用。由于运算失效，重新运行的时候不会再被调用。如果你想用在只运行一次的时候这个钩子很好用，比如统计分析。注意如果路由通过热代码堆重新载入，这个钩子不会重新运行。你 *必须* 调用`this.next()`去继续调用下一个钩子函数。
 
-* **onRerun**: Called if the route reruns because its computation is
-  invalidated. Similarly to `onBeforeAction`, if you want to continue calling the next function, you
-  *must* call `this.next()`.
+* **onRerun**: 
+  由于运算失效的原因，此钩子在路由重新运行的时候被调用。和 `onBeforeAction`类似，如果你想继续执行下一个钩子函数，你 *必须* 调用`this.next()`。
 
-* **onBeforeAction**: Called before the route or "action" function is run. These
-  hooks behave specially. If you want to continue calling the next function you
-  *must* call `this.next()`. If you don't, downstream onBeforeAction hooks and
-  your action function will *not* be called.
+* **onBeforeAction**: 
+  在路由函数和`action`函数前运行。这个钩子表现特别, 如果你想调用下一个函数 *必须* 调用 `this.next()`。 如果没有调用，剩下的 `onBeforeAction` 钩子函数和 `action` 函数将不会被调用。
 
-* **onAfterAction**: Called after your route/action function has run or had a
-  chance to run. These hooks behave like normal hooks and you don't need to call
-  `this.next()` to move from one to the next.
+* **onAfterAction**: 
+  在路由函数和action函数后被调用，或有机会被调用。这个钩子有别于其他钩子，不需要调用`this.next()`来执行下一个钩子。
 
-* **onStop**: Called when the route is stopped, typically right before a new
-  route is run.
+* **onStop**: 
+  当路由结束的时候调用。通常运行在一个新的路由。
 
 
 ### Server Hooks and Connect
+*服务器端钩子和连接*
 
-On the server, the API signature for a `onBeforeAction` hook is identical to that of a [connect](https://github.com/senchalabs/connect) middleware:
+在服务器端，`onBeforeAction`钩子的API接口和[connect](https://github.com/senchalabs/connect)中间件完全相同:
 
 ```javascript
 Router.onBeforeAction(function(req, res, next) {
@@ -1013,37 +1010,34 @@ Router.onBeforeAction(function(req, res, next) {
 }, {where: 'server'});
 ```
 
-This means you can attach any connect middleware you like on the server side using `Router.onBeforeAction()`. For convience, IR makes express' [body-parser](https://github.com/expressjs/body-parser) available at `Iron.Router.bodyParser`.
+这意味着,使用`Router.onBeforeAction()`你可以附加任何connect中间件到服务器端。 为了方便，在`Iron.Router.bodyParser`中，IR让[body-parser](https://github.com/expressjs/body-parser)表达式可用。
 
-The Router attaches the JSON body parser automatically.
+路由自动附加JSON body parser。
 
 ## Route Controllers
-An `Iron.RouteController` object is created when the Router handles a url
-change. The `RouteController` gives us a place to store state as we run the
-route, and persists until another route is run.
+*路由控制器*
+`Iron.RouteController`对象会在路由或者URL改变的时候创建。`RouteController`为在运行路由的时候，提供了一个保存状态的地方，并且保持到下一个路由运行。
 
-We've been calling a few methods inside of our route functions like
-`this.render()` and `this.layout()`. The `this` object inside of these functions
-is actually an instance of a `RouteController`. If you're building a simple
+在路由函数中，我们调用了一些函数如`this.render()` 和 `this.layout()`。这个`this`对象就是实际上就是`RouteController`实例。If you're building a simple
 application you probably don't need to worry about `RouteController`. But if
 your application gets larger, using `RouteControllers` directly offers two key
 benefits:
 
-* **Inheritance**: You can inherit from other RouteControllers to model your
-  application's behavior.
-* **Organization**: You can begin to separate your route logic into
-  RouteController files instead of putting all of your complex business logic
-  into one big route file.
+* **Inheritance**: 
+  *继承* 你可以继承其他`RouteControllers`去构造你的应用的行为。
+
+* **Organization**: 
+  *组织*可以开始分隔路由逻辑到多个RouteController文件中，来替换把所有完整的业务逻辑到写到一个大的路由文件中。
 
 ### Creating Route Controllers
-You can create a custom `RouteController` like this:
+*创建路由控制器*
+可以如下自定义`RouteController`：
 
 ```javascript
 PostController = RouteController.extend();
 ```
 
-When you define a route, you can specify a controller to use, or the router will
-try to find a controller automatically based on the name of the route.
+当定义一个路由，可以指定一个控制器，或者路由会自动基于路由名找一个路由。
 
 ```javascript
 Router.route('/post/:_id', {
@@ -1051,9 +1045,7 @@ Router.route('/post/:_id', {
 });
 ```
 
-The route defined above will automatically use the `PostController` using the
-name of the route. We can tell the route to use a different controller by
-providing a controller option.
+上面的路由会根据路由名，自动使用`PostController`。通过`controller`设置，可以告诉路由去使用一个不同的控制器。
 
 ```javascript
 Router.route('/post/:_id', {
@@ -1062,7 +1054,7 @@ Router.route('/post/:_id', {
 });
 ```
 
-We can use all of the same options from our routes on our `RouteControllers`.
+我们可以使用所有的路由选项使用到`RouteControllers`.
 
 ```javascript
 PostController = RouteController.extend({
@@ -1080,20 +1072,17 @@ PostController = RouteController.extend({
 });
 ```
 
-We might have some options defined globally with `Router.configure`, some
-options defined on the `Route` and some options defined on the
-`RouteController`. Iron.Router looks up options in this order:
+我们会有一些相同的选项定义在全局的`Router.configure`、`Route`、`RouteController`. Iron.Router 查找选项的顺序如下:
 
 1. Route
 2. RouteController
 3. Router
 
 ### Inheriting from Route Controllers
-RouteControllers can inherit from other RouteControllers. This enables some
-interesting organization schemes for your application.
+*从路由控制器继承*
+RouteControllers 可以从其他RouteControllers继承。这可以实现很多有意思的代码组织方式。
 
-Let's say we have an `ApplicationController` which we want to use as the default
-controller for all routes.
+打个比方，我们有一个`ApplicationController`控制器，我爸把他作为默认控制器用于所有路由。
 
 ```javascript
 ApplicationController = RouteController.extend({
@@ -1115,8 +1104,8 @@ Router.route('/posts/:_id', {
   name: 'post'
 });
 
-// inherit from `ApplicationController` and override any
-// behavior you'd like.
+// 继承`ApplicationController`，
+// 并且根据自己的需要重写任何行为
 PostController = ApplicationController.extend({
   layoutTemplate: 'PostLayout'
 });
@@ -1124,19 +1113,17 @@ PostController = ApplicationController.extend({
 
 
 
-*NOTE: This is currently a bit tricky with Meteor since you can't precisely
+*注意: This is currently a bit tricky with Meteor since you can't precisely
 control file load order. You need to make sure parent RouteControllers are
 evaluated before child RouteControllers.*
 
 ### Accessing the Current Route Controller
-There are two ways to access the current `RouteController`.
+*访问当前的路由控制器*
+这里有两个方式可以访问当前的`RouteController`。
 
-If you're on the client, you can use the `Router.current()` method. This will
-reactively return the current instance of a `RouteController`. Keep in mind this
-value could be `null` if no route has run yet.
+如果你在客户端，可以使用`Router.current()`方法。 这将会返回一个`RouteController`的当前实例。 牢记如果没有路由运行，这个值可以为`null`。
 
-You can also access the current `RouteController` from inside your template
-helpers by using the `Iron.controller()` method.
+也可以在模板的helpers中使用`Iron.controller()`方法来访问当前`RouteController`。
 
 ```javascript
 Router.route('/posts', function () {
@@ -1144,7 +1131,7 @@ Router.route('/posts', function () {
 });
 ```
 
-This route will render the `Posts` template defined below.
+这个路由渲染下面这个模板`Posts`。
 
 ```handlebars
 <template name="Posts">
@@ -1152,8 +1139,7 @@ This route will render the `Posts` template defined below.
 </template>
 ```
 
-Now let's say we want to access the current controller from a template helper
-defined on the `Posts` template.
+现在打个比方说我们想在`Posts`模板的helpers中访问当前控制器：
 
 ```javascript
 Template.Posts.helpers({
@@ -1166,10 +1152,10 @@ Template.Posts.helpers({
 ```
 
 ### Setting Reactive State Variables
-You can set reactive state variables on controllers using the `set` method on
-the controller's [ReactiveDict](https://atmospherejs.com/meteor/reactive-dict) `state`.
+*设置活性状态变量*
+我们可以在控制器中使用`set`方法设置活性状态变量。[ReactiveDict](https://atmospherejs.com/meteor/reactive-dict) `state`.
 
-Let's say we want to store the post `_id` in a reactive variable:
+举个例子，我们想存储post的 `_id` 到活性状态变量中:
 
 ```javascript
 Router.route('/posts/:_id', {name: 'post'});
@@ -1185,9 +1171,8 @@ PostController = RouteController.extend({
 ```
 
 ### Getting Reactive State Variables
-You can get a reactive variable value by calling `this.state.get("key")` on the
-`RouteController`. Using the example above, let's grab the value of `postId`
-from a template helper.
+*获取活性状态变量*
+在`RouteController`中调用`this.state.get("key")`可以取得活性状态变量的值。使用上面的例子, 让我们在模板的helper中获取`postId`的值。
 
 ```javascript
 Template.Post.helpers({
@@ -1201,9 +1186,8 @@ Template.Post.helpers({
 ```
 
 ## Custom Router Rendering
-So far we've been letting the Router render itself to the page automatically.
-But you can also control precisely where the Router renders itself by using a
-global helper method.
+*自定义路由渲染*
+到目前为止我们已经允许路由在页面上自定渲染自己，但是我们也可以精确的控制渲染路由。
 
 ```handlebars
 <body>
@@ -1216,38 +1200,29 @@ global helper method.
 ```
 
 ## Legacy Browser Support
-Legacy browsers do not support the HTML5 `pushState` and `history` features
-required for normal client side browsing with the `Router`. To solve this
-problem, the `Router` can fall back to using hash fragments in the url.
-Actually, under the hood, `iron-router` uses a package called `iron-location`
-which handles all of this. It works similarly to the `History.js` project but
-works seamlessly.
+*旧浏览器支持*
+旧浏览器不支持Html5的方法`pushState`和`history`, 但是这两个方法是`Router`必须的。为了解决这个问题，浏览器可以降级在url中使用hash散列。实际上，在底层，`iron-router` 使用了一个包名字叫`iron-location`。它的工作原理和`History.js`项目相同，还是和项目无缝结合。
 
-This functionality is automatically enabled for **IE8** and **IE9**. If you want
-to enable it manually to play around you can configure `Iron.Location` like
-this:
+**IE8** 和 **IE9** 这个功能自动激活。如果你想手动激活，可以如下配置`Iron.Location`：
 
 ```javascript
 Iron.Location.configure({useHashPaths: true});
 ```
 
-Even though the url will appear differently in the browser when using this mode,
-the url, query, hash and parameters will look like their regular values inside
-of `RouteController` functions. Here are a few examples of how urls will be
-translated.
+即使使用这个模式在浏览器中出现不同，在`RouteController`函数中url、 query、 hash和参数，还是和原来一样
+这是一个例子说明url是怎么转换的。
 
 ```bash
 http://localhost:3000/items/5?q=s#hashFrag
 ```
 
-The url above would be transformed to the url below in your browser.
+上面的url或如下转换
 
 ```bash
 http://localhost:3000/#/items/5?q=s&__hash__=hashFrag
 ```
 
-But in your `RouteController` functions you can access the url, query and hash
-values just like you have before.
+但是在`RouteController` 函数你还是和原来一样访问url, query和hash的值。
 
 ```javascript
 Router.route('/items/:_id', function () {
@@ -1257,5 +1232,5 @@ Router.route('/items/:_id', function () {
 });
 ```
 
-**NOTE: Please let us know if you can help test support on other browsers!**
+**NOTE: 请让我们支持你可以测试其他浏览器的支持情况**
 
