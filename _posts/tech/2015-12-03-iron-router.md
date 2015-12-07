@@ -191,7 +191,7 @@ var params = controller.getParams();
 
 ```handlebars
 <template name="Post">
-  <h1>Post: \{\{title\}\}</h1>
+  <h1>Post: `{{`title`}}`</h1>
 </template>
 ```
 
@@ -230,19 +230,19 @@ Router.route('/post/:_id', function () {
 ```handlebars
 <template name="ApplicationLayout">
   <header>
-    <h1>\{\{title\}\}</h1>
+    <h1>`{{`title`}}`</h1>
   </header>
 
   <aside>
-    \{\{> yield "aside"\}\}
+    `{{`> yield "aside"`}}`
   </aside>
 
   <article>
-    \{\{> yield\}\}
+    `{{`> yield`}}`
   </article>
 
   <footer>
-    \{\{> yield "footer"\}\}
+    `{{`> yield "footer"`}}`
   </footer>
 </template>
 ```
@@ -272,7 +272,7 @@ Router.configure({
 ```handlebars
 <template name="Post">
   <p>
-    \{\{post_content\}\}
+    `{{`post_content`}}`
   </p>
 </template>
 
@@ -292,15 +292,15 @@ Router.route('/post/:_id', function () {
   this.layout('ApplicationLayout');
 
   // 渲染Post模板到"main"区域
-  // \{\{> yield\}\}
+  // `{{`> yield`}}`
   this.render('Post');
 
   // 渲染模板PostAside名字叫"aside"的区域 
-  // \{\{> yield "aside"\}\}
+  // `{{`> yield "aside"`}}`
   this.render('PostAside', {to: 'aside'});
 
   // 渲染模板PostFooter到"footer"区域 
-  // \{\{> yield "footer"\}\}
+  // `{{`> yield "footer"`}}`
   this.render('PostFooter', {to: 'footer'});
 });
 ```
@@ -345,16 +345,16 @@ Router.route('/post/:_id', function () {
 ```handlebars
 <template name="Post">
   <p>
-    \{\{post_content\}\}
+    `{{`post_content`}}`
   </p>
 
-  \{\{#contentFor "aside"\}\}
+  `{{`#contentFor "aside"`}}`
     Some post specific aside content.
-  \{\{/contentFor\}\}
+  `{{`/contentFor`}}`
 
-  \{\{#contentFor "footer"\}\}
+  `{{`#contentFor "footer"`}}`
     Some post specific footer content.
-  \{\{/contentFor\}\}
+  `{{`/contentFor`}}`
 </template>
 ```
 
@@ -377,12 +377,12 @@ Router.route('/post/:_id', function () {
 ```handlebars
 <template name="Post">
   <p>
-    \{\{post_content\}\}
+    `{{`post_content`}}`
   </p>
 
-  \{\{> contentFor region="aside" template="PostAside"\}\}
+  `{{`> contentFor region="aside" template="PostAside"`}}`
 
-  \{\{> contentFor region="footer" template="PostFooter"\}\}
+  `{{`> contentFor region="footer" template="PostFooter"`}}`
 </template>
 ```
 
@@ -415,7 +415,7 @@ Router.route('/post/:_id', function () {
   </nav>
 
   <article>
-    \{\{> yield\}\}
+    `{{`> yield`}}`
   </article>
 </template>
 
@@ -581,12 +581,12 @@ Router.setTemplateNameConverter(function (str) { return str; });
 
 ### pathFor
 
-这里有一些模板帮助，我们可以通过他们创建基于路由的链接。首先，我们使用`\{\{pathFor\}\}` helper去生成一个已经命名路由的路径。我们创建一个名字叫`post.show`的路由的链接:
+这里有一些模板帮助，我们可以通过他们创建基于路由的链接。首先，我们使用``{{`pathFor`}}`` helper去生成一个已经命名路由的路径。我们创建一个名字叫`post.show`的路由的链接:
 
 ```handlebars
-\{\{#with post\}\}
-  <a href="\{\{pathFor route='post.show'\}\}">Post Show</a>
-\{\{/with\}\}
+`{{`#with post`}}`
+  <a href="`{{`pathFor route='post.show'`}}`">Post Show</a>
+`{{`/with`}}`
 ```
 
 假设我们有一个id是1的post，上面的代码片段等价于:
@@ -598,7 +598,7 @@ Router.setTemplateNameConverter(function (str) { return str; });
 我们可以传入 `data`, `query` 和 `hash` 选项到 `pathFor` helper。
 
 ```handlebars
-<a href="\{\{pathFor route='post.show' data=getPost query='q=s' hash='frag'\}\}">Post Show</a>
+<a href="`{{`pathFor route='post.show' data=getPost query='q=s' hash='frag'`}}`">Post Show</a>
 ```
 
 这个data对象将会被内插到路由参数中。`query`和`hash`参数将会被作为query string 和hash散列添加到链接中。比如，data对象如下:
@@ -625,11 +625,11 @@ data = { _id: 1 };
 `linkTo` helper可以根据改定的路由、参数、hash和query自动生成一个html锚标记。你也可以提供一个内容块嵌入到链接中。
 
 ```handlebars
-\{\{#linkTo route="post.show" data=getData query="q=s" hash="hashFrag" class="my-cls"\}\}
+`{{`#linkTo route="post.show" data=getData query="q=s" hash="hashFrag" class="my-cls"`}}`
   <span style="color: orange;">
     Post Show
   </span>
-\{\{/linkTo\}\}
+`{{`/linkTo`}}`
 ```
 
 上面的表达式将转换为下面的html：
@@ -1193,8 +1193,8 @@ Template.Post.helpers({
 <body>
   <h1>Some App Html</h1>
   <div class="container">
-    \{\{! Render the router into this div instead of the body\}\}
-    \{\{> Router\}\}
+    `{{`! Render the router into this div instead of the body`}}`
+    `{{`> Router`}}`
   </div>
 </body>
 ```
