@@ -1,5 +1,5 @@
 permalink: /:year/:month/:day/:title.html
-markdown: Maruku
+markdown: redcarpet
 pygments: true
 
 kramdown:
