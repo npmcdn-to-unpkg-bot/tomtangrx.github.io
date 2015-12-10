@@ -16,7 +16,7 @@ db.collection.find()  查询集合中文档并返回结果为游标的文档集�
 > db.collection.find(query, projection)
 ```
 
-<table>
+<table class="table table-bordered table-striped table-condensed">
     <thead><tr><th>参数</th><th>类型</th><th>描述</th></tr></thead>
     <tbody>
         <tr>
