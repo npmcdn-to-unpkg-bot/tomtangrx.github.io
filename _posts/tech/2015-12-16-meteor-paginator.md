@@ -257,7 +257,7 @@ page:{
     pageCount: Counts.get('articleCount2KR7BKN68hKdYem28'), // 总条数
     pageSize:50,   // 每页条数
     pageUrl:'/news/newscenter/p<%=page%>', // 页的URL  page 表示页码
-},
+}
 ```
 
 其他参数可参照 *HTML 分页模板 js* 的 `defaultOptions`
