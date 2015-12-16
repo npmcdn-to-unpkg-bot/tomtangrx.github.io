@@ -250,6 +250,7 @@ Template._defaultPagerList.helpers({
 `this.pageData`是订阅回来的数据，`this.page`是分页的设置
 
 this.page的格式： 
+
 ```javascript
 page:{
     currentPage : this.params.pageIndex | 0,  // 当前页码
