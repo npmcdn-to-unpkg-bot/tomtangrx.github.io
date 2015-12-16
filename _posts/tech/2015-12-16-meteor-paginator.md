@@ -248,8 +248,9 @@ Template._defaultPagerList.helpers({
 ```
 
 `this.pageData`是订阅回来的数据，`this.page`是分页的设置
+
 this.page的格式： 
-```json
+```javascript
 page:{
     currentPage : this.params.pageIndex | 0,  // 当前页码
     pageCount: Counts.get('articleCount2KR7BKN68hKdYem28'), // 总条数
@@ -257,4 +258,5 @@ page:{
     pageUrl:'/news/newscenter/p<%=page%>', // 页的URL  page 表示页码
 },
 ```
+
 其他参数可参照 *HTML 分页模板 js* 的 `defaultOptions`
