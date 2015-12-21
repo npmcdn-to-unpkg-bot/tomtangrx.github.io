@@ -19,6 +19,10 @@ description: 汤瑞新的技术博客
 url: http://tomtangrx.gihub.io
 rss_url: /pages/atom.xml
 
+# duoshuo 设置
+duoshuo:
+  shortname: ec74cc0e0bf0337fec200c3688cb034c
+
 # avatar头像及Favicon
 avatar: http://tomtangrx.github.io/assets/img/trx.jpg
 favicon: http://tomtangrx.github.io/assets/img/favicon.ico
