@@ -52,11 +52,13 @@ Sagas 使用Generator functions（生成器函数）创建。
 #Getting started
 
 安装
+
 ```
 npm install redux-saga
 ```
 
 创建Saga (使用Redux的计数器例子)
+
 ```javascript
 import { take, put } from 'redux-saga'
 // sagas/index.js
@@ -82,6 +84,7 @@ export default [incrementAsync]
 ```
 
 插入redux-sago到中间件管道
+
 ```javascript
 // store/configureStore.js
 import sagaMiddleware from 'redux-saga'
