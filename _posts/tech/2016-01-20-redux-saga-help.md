@@ -1,3 +1,11 @@
+---
+layout: post
+title:  redux-saga 帮助文档翻译
+category: 技术
+tags: react, saga, redux, doc
+keywords: react saga redux doc
+---
+
 # redux-saga
 
 [![npm version](https://img.shields.io/npm/v/redux-saga.svg?style=flat-square)](https://www.npmjs.com/package/redux-saga)
