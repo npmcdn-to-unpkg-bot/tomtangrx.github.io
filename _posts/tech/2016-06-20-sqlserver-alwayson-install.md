@@ -37,3 +37,60 @@ keywords: sqlserver alwayson
 
 
 ## 只读路由设置[链接](https://technet.microsoft.com/zh-cn/library/hh710054.aspx#Prerequisites)
+
+code
+
+``` sql
+ALTER AVAILABILITY GROUP [testdb]  
+ MODIFY REPLICA ON  
+N'SQL1' WITH   
+(SECONDARY_ROLE (ALLOW_CONNECTIONS = READ_ONLY));  
+ALTER AVAILABILITY GROUP [testdb]  
+ MODIFY REPLICA ON  
+N'SQL1' WITH   
+(SECONDARY_ROLE (READ_ONLY_ROUTING_URL = N'TCP://192.168.100.241:1433'));  
+  
+ALTER AVAILABILITY GROUP [testdb]  
+ MODIFY REPLICA ON  
+N'SQL2' WITH   
+(SECONDARY_ROLE (ALLOW_CONNECTIONS = READ_ONLY));  
+ALTER AVAILABILITY GROUP [testdb]  
+ MODIFY REPLICA ON  
+N'SQL2' WITH   
+(SECONDARY_ROLE (READ_ONLY_ROUTING_URL = N'TCP://192.168.100.242:1433'));  
+  
+ALTER AVAILABILITY GROUP [testdb]   
+MODIFY REPLICA ON  
+N'SQL1' WITH   
+(PRIMARY_ROLE (READ_ONLY_ROUTING_LIST=('SQL2','SQL1')));  
+  
+ALTER AVAILABILITY GROUP [testdb]   
+MODIFY REPLICA ON  
+N'SQL2' WITH   
+(PRIMARY_ROLE (READ_ONLY_ROUTING_LIST=('SQL1','SQL2')));  
+GO
+```
+只读路由验证
+
+``` sql
+SELECT
+g.name AS AGName,
+ar1.replica_server_name AS ReplicaServerName,
+ar2.replica_server_name AS RountingReplicaServerName,
+ar1.endpoint_url AS ReplicaServerURL,
+ar2.endpoint_url AS RountingReplicaServerURL
+FROM sys.availability_read_only_routing_lists rl
+INNER JOIN sys.availability_replicas ar1 
+ON ar1.replica_id=rl.replica_id
+INNER JOIN sys.availability_replicas ar2 
+ON ar2.replica_id=rl.read_only_replica_id
+INNER JOIN sys.availability_groups g 
+ON ar1.group_id=g.group_id
+WHERE rl.routing_priority=1
+```
+
+数据库链接
+
+```
+Server=tcp:MyAgListener,1433;Database=Db1;IntegratedSecurity=SSPI;ApplicationIntent=ReadOnly;MultiSubnetFailover=True  
+```
