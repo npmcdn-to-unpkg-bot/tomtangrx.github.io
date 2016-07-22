@@ -94,3 +94,5 @@ WHERE rl.routing_priority=1
 ```
 Server=tcp:MyAgListener,1433;Database=Db1;IntegratedSecurity=SSPI;ApplicationIntent=ReadOnly;MultiSubnetFailover=True  
 ```
+
+Server=tcp:192.168.100.205\erpserver,1433;Database=Db1; ApplicationIntent=ReadOnly;MultiSubnetFailover=True;uid=sa;pwd=123!@#QAZ;  
